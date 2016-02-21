@@ -1,0 +1,14 @@
+/* Empty. Add your own CSS if you like */
+
+.button-large {
+	font-size: 100px;
+	margin-right: 25px;
+	padding: 20px 35px;
+}
+.button-balanced {
+	font-size: 30px;
+}
+
+.content {
+	text-align: center;
+}
