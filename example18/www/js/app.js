@@ -25,20 +25,20 @@ angular.module('starter', ['ionic', 'ui.router'])
 
 .config(function($stateProvider, $urlRouterProvider) {
    $stateProvider
-     .state('page1', {
-       url: '/page1',
-       templateUrl: 'page1.html',
+     .state('main', {
+       url: '/main',
+       templateUrl: 'templates/main.html',
        controller: 'MainCtrl'
      })
-     .state('page2', {
-       url: '/page2',
-       templateUrl: 'page2.html'
+     .state('preferences', {
+       url: '/preferences',
+       templateUrl: 'templates/preferences.html'
      });
-     $urlRouterProvider.otherwise('/page1');
+     $urlRouterProvider.otherwise('/main');
 })
 
 .controller('MainCtrl', function($scope, $state, $timeout){
   $timeout(function() {
-    $state.go('page2');
+    $state.go('preferences');
   }, 2000);
 })
