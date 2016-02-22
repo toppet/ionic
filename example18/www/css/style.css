@@ -1,1 +1,28 @@
 /* Empty. Add your own CSS if you like */
+.paired-device.ng-enter {
+	-webkit-animation: fadeIn 750ms;
+    animation: fadeIn 750ms;
+}
+
+.paired-device.ng-enter-stagger {
+	-webkit-animation-delay: 100ms;
+	animation-delay: 100ms;
+
+	/* override to make sure it's not inherited from other styles */
+	-webkit-animation-duration:0;
+	animation-duration:0;
+}
+
+.new-device.ng-enter {
+	-webkit-animation: fadeIn 750ms;
+    animation: fadeIn 750ms;
+}
+
+.new-device.ng-enter-stagger {
+	-webkit-animation-delay: 100ms;
+	animation-delay: 100ms;
+
+	/* override to make sure it's not inherited from other styles */
+	-webkit-animation-duration:0;
+	animation-duration:0;
+}

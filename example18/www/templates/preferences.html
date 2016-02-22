@@ -1,9 +1,26 @@
-<ion-view view-title="Beállítások">
+<ion-view view-title="Csatlakozás">
+	
 	<ion-content padding="true">
-	 <div class="row">
-	  <div class="col text-center">
-	    <h3>Page 2</h3>
-	  </div>
+	 <div class="card">
+		<ul class="list">
+		<li class=" item item-divider text-center">Már párosított eszközök</li>
+			<a href="#" class="item text-center paired-device" data-ng-repeat="device in pairedDeviceList track by $index" data-ng-click="logger({{device}})">
+				{{device}}
+			</a>
+		</ul>
+	</div>
+	<div class="row">
+		<div class="col">
+			<button class="button button-full button-dark" data-ng-click="findNew()">Eszközök keresése</button>
+		</div>
+	</div>
+	 <div class="card" data-ng-show="newDeviceList.length > 0" data-ng-hide="connected">
+		<ul class="list">
+		<li class="item item-divider text-center">A közelben lévő eszközök</li>
+			<a href="#" class="item text-center new-device" data-ng-repeat="newDevice in newDeviceList track by $index" ng-click="connectToDevice({{newDevice}})">
+				{{newDevice}}
+			</a>
+		</ul>
 	</div>
 	</ion-content>
 </ion-view>
