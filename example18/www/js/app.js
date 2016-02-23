@@ -84,7 +84,7 @@ angular.module('starter', ['ionic', 'ui.router','ngAnimate'])
 		});
 		$timeout(function(){
 			 $ionicLoading.hide();
-			 console.log("Csatlakozásva: " + (value));
+			 console.log("Csatlakozva: " + (value));
 			 connected = true;
 			 if(connected == true) {
 			 	 $state.go('main');
