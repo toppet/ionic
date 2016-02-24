@@ -1,26 +1,40 @@
 <ion-view view-title="Csatlakozás">
-	
+	<ion-nav-back-button class="button-clear">
+		<i class="ion-chevron-left"></i> Vissza
+	</ion-nav-back-button>
 	<ion-content padding="true">
-	 <div class="card">
+	 <!--<div class="card">
+	 	<div class="row">
+	 		<div class="col padding">
+	 			<button class="button button-full button-dark" data-ng-click="listDevices()">Eszközök keresése</button>
+	 		</div>
+	 	</div>
+	 	<div class="row">
+		 	<div class="col padding">
+				<ul class="list">
+				<li class=" item item-divider text-center">Már párosított eszközök</li>
+					<a href="#" class="item text-center paired-device" data-ng-repeat="device in pairedDeviceList" data-ng-click="connectToDevice(device.address)">
+						{{device.name}}
+					</a>
+				</ul>
+			</div>
+		</div>
+	</div>-->
+	<div class="row">
+		<div class="col">
+			<button class="button button-full button-dark" data-ng-click="findNew()"><ion-spinner icon="ripple"></ion-spinner>Eszközök keresése</button>
+		</div>
+	</div>
+	 <div class="card" data-ng-show="newDeviceList.length > 0">
 		<ul class="list">
-		<li class=" item item-divider text-center">Már párosított eszközök</li>
-			<a href="#" class="item text-center paired-device" data-ng-repeat="device in pairedDeviceList track by $index" data-ng-click="logger({{device}})">
-				{{device}}
+		<li class="item item-divider text-center">A közelben lévő eszközök</li>
+			<a href="#" class="item text-center new-device" data-ng-repeat="newDevice in newDeviceList" ng-click="connectToDevice(newDevice.address)">
+				{{newDevice.name}}
 			</a>
 		</ul>
 	</div>
 	<div class="row">
-		<div class="col">
-			<button class="button button-full button-dark" data-ng-click="findNew()">Eszközök keresése</button>
-		</div>
-	</div>
-	 <div class="card" data-ng-show="newDeviceList.length > 0" data-ng-hide="connected">
-		<ul class="list">
-		<li class="item item-divider text-center">A közelben lévő eszközök</li>
-			<a href="#" class="item text-center new-device" data-ng-repeat="newDevice in newDeviceList track by $index" ng-click="connectToDevice({{newDevice}})">
-				{{newDevice}}
-			</a>
-		</ul>
+		<div class="col text-center"> {{ msg }} </div>
 	</div>
 	</ion-content>
 </ion-view>

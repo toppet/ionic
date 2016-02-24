@@ -63,8 +63,6 @@ angular.module('bluetoothApp', ['ionic', 'ngCordova'])
           
           $scope.sendOn = function($index){
             /*bluetoothSerial.write("1", function(){}, function(){});  */
-            
-            
           };
 
           $scope.sendOff = function(){

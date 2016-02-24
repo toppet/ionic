@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ui.router','ngAnimate'])
+angular.module('starter', ['ionic', 'ui.router','ngAnimate','ngCordova'])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -33,64 +33,57 @@ angular.module('starter', ['ionic', 'ui.router','ngAnimate'])
 		 .state('preferences', {
 			 url: '/preferences',
 			 templateUrl: 'templates/preferences.html',
-			 controller: 'PrefCtrl',
-			 cache: false
+			 controller: 'PrefCtrl'
 		 });
 		 $urlRouterProvider.otherwise('/preferences');
 })
 
-.controller('MainCtrl', function($scope, $state, $timeout){
-	/*$timeout(function() {
-		$state.go('preferences');
-	}, 2000);*/
+.controller('MainCtrl', function($scope, $ionicPlatform, $ionicLoading, $timeout, $state, $cordovaBluetoothSerial){
+	$ionicPlatform.ready(function(){
+		$scope.sendOn = function(){
+			bluetoothSerial.write("1", function(){}, function(){});
+		};
+
+		$scope.sendOff = function(){
+			bluetoothSerial.write("0", function(){}, function(){});
+		};
+	});
 })
 
-.controller('PrefCtrl', function($scope, $timeout, $ionicLoading, $state){
-	$scope.pairedDeviceList = [];
-	$scope.newDeviceList = [];
-	$scope.connected = false;
+.controller('PrefCtrl', function($scope, $ionicPlatform, $ionicLoading, $timeout, $state, $cordovaBluetoothSerial){
 
-	$ionicLoading.show({
-			template: '<ion-spinner icon="ripple"></ion-spinner>'
-	});
+	$ionicPlatform.ready(function(){
+		$scope.pairedDeviceList = [];
+		$scope.newDeviceList = [];
 
-	$timeout(function(){
-		for(var i=0; i < 3; i++){
-			$scope.pairedDeviceList.push(i+1);
-		}
-		 $ionicLoading.hide();
-	}, 1000);
+		$scope.listDevices = function(){
+			$ionicLoading.show({ template: '<ion-spinner icon="ripple"></ion-spinner>' });
+			bluetoothSerial.list(function(devices){
+				$scope.pairedDeviceList = devices;
+				$ionicLoading.hide();
+			},
+			function(err){
+				alert(err);
+			});
+		};
 
-	$scope.findNew = function(){
-		for(var i=0; i<5; i++){
-			$scope.newDeviceList.push(i+1);
-		}
-	};
-
-	$scope.logger = function(value){
-		$scope.connected = true;
-		console.log("ezt nyomtad meg: " + (value));
+		$scope.findNew = function(){
+			$ionicLoading.show({ template: '<ion-spinner icon="ripple"></ion-spinner>' });
+			bluetoothSerial.discoverUnpaired(function(devices) {
+			    $scope.newDeviceList = devices;
+			    $ionicLoading.hide();
+			}, function(err){alert(err);});
+		};
 		
-		console.log($scope.connected?'igen':'nem');
-		$scope.pairedDeviceList.push(55);
-		$state.go('main');
-	}
-
-	$scope.connectToDevice = function(value){
-		$scope.connected = true;
-		console.log("csatlakozás ehhez: " + (value));
-		$ionicLoading.show({
-			template: '<ion-spinner icon="ripple"></ion-spinner>'
-		});
-		$timeout(function(){
-			 $ionicLoading.hide();
-			 console.log("Csatlakozva: " + (value));
-			 connected = true;
-			 if(connected == true) {
-			 	 $state.go('main');
-			 }
-		}, 1000);
-	}
-
+		$scope.connectToDevice = function(deviceAdd){
+			bluetoothSerial.connect(deviceAdd, function(){
+				$scope.msg = 'Sikeres kapcsolódás!';
+				$timeout(function(){
+					$state.go('main');
+				},1500);
+			},function(err){ alert(err); });
+			
+		};
+	}); /*ionic ready */
 	
 });
